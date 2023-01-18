@@ -3,6 +3,7 @@ package com.springboot.blogapp.Controllers;
 import com.springboot.blogapp.DTO.PostDTO;
 import com.springboot.blogapp.Models.Post;
 import com.springboot.blogapp.Services.PostService;
+import com.springboot.blogapp.utils.AppContants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class PostController {
         *  URL: http://localhost:8080/api/posts/health-check
         *  METHOD: GET
         * */
-        return ResponseEntity.ok("API Working...");
+        return ResponseEntity.ok("POSTs API Working...");
     }
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
@@ -39,7 +40,12 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts(){
+    public ResponseEntity<List<PostDTO>> getAllPosts(
+            @RequestParam(name="pageNo", defaultValue = AppContants.DEFAULT_PAGE_NO, required = false) int pageNo,
+            @RequestParam(name="pageSize", defaultValue = AppContants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(name="sortBy", defaultValue = AppContants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(name="sortDir", defaultValue = AppContants.DEFAULT_SORT_DIR, required = false) String sortDir
+    ){
         /*
          *
          *  URL: http://localhost:8080/api/posts
@@ -47,7 +53,7 @@ public class PostController {
          *
          */
         System.out.println("Getting all Posts..");
-        List<PostDTO> listOfPostDTOs=postService.getAllPosts();
+        List<PostDTO> listOfPostDTOs=postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
         return ResponseEntity.ok(listOfPostDTOs);
     }
 

@@ -6,6 +6,10 @@ import com.springboot.blogapp.Models.Post;
 import com.springboot.blogapp.Repositories.PostRepository;
 import com.springboot.blogapp.Services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +48,6 @@ public class PostServiceImpl implements PostService {
 
         // Return PostDTO Response
         return mapPostToPostDTO(savedPost);
-
     }
 
     private Post getAPost(Long postId){
@@ -53,9 +56,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPosts() {
+    public List<PostDTO> getAllPosts(int pageNo,int pageSize,String sortBy,String sortDir) {
+        Sort sort=Sort.by(sortBy).ascending();
+        System.out.println("Sort dir: "+sortDir);
+        if(sortDir.equalsIgnoreCase("DESC")) {
+
+            sort = Sort.by(sortBy).descending();
+        }
+
+        Pageable pageable= PageRequest.of(pageNo,pageSize, sort);
+
         // Get all posts
-        List<Post> listOfPosts=postRepository.findAll();
+        Page<Post> pageOfPosts=postRepository.findAll(pageable);
+
+        List<Post> listOfPosts=pageOfPosts.getContent();
 
         return listOfPosts.stream().map(post->mapPostToPostDTO(post))
                 .collect(Collectors.toList());
