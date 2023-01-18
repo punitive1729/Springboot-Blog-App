@@ -1,7 +1,6 @@
 package com.springboot.blogapp.Controllers;
 
 import com.springboot.blogapp.DTO.PostDTO;
-import com.springboot.blogapp.Models.Post;
 import com.springboot.blogapp.Services.PostService;
 import com.springboot.blogapp.utils.AppContants;
 import org.springframework.beans.factory.annotation.Autowired;
