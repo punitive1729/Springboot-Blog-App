@@ -69,7 +69,7 @@ public class CommentController {
                                                         @RequestBody CommentDTO commentDTO){
         /*
          *  URL: http://localhost:8080/api/posts/{postId}/comments/{commentId}
-         *  METHOD: DELETE
+         *  METHOD: PUT
          * */
         System.out.println("Deleting comment on a Post");
         return ResponseEntity.ok(commentService.updateACommentOnAPost(postId,commentId,commentDTO));
